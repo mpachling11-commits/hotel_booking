@@ -7,6 +7,15 @@
 <body>
 
 <header class="page-header">
+    <header class="navbar">
+    <h2>Sunshine Hotel</h2>
+    <nav>
+        <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('rooms') }}" class="nav-link">Rooms</a>
+        <a href="{{ url_for('booking') }}" class="nav-link">Booking</a>
+        <a href="{{ url_for('contact') }}" class="nav-link">Contact</a>
+    </nav>
+    </header>
     <h1>Our Luxury Rooms</h1>
     <p>Comfort • Elegance • Relaxation</p>
 </header>
