@@ -6,6 +6,14 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+@app.route("/rooms")
+def rooms():
+    return render_template("rooms.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     if request.method == "POST":
