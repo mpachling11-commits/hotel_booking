@@ -176,4 +176,79 @@ form {
     text-decoration: none;
     border-radius: 5px;
 }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+}
+
+/* Navbar */
+.navbar {
+    background: #0a66c2;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.navbar nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Contact Section */
+.contact-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 50px;
+    flex-wrap: wrap;
+}
+
+.contact-card {
+    background: white;
+    width: 320px;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.contact-card h2 {
+    margin-bottom: 15px;
+    color: #0a66c2;
+}
+
+/* Form */
+.contact-card input,
+.contact-card textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.contact-card button {
+    width: 100%;
+    padding: 12px;
+    background: #0a66c2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contact-card button:hover {
+    background: #004182;
+}
+
+/* Footer */
+footer {
+    background: #0a66c2;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 50px;
+}
 
