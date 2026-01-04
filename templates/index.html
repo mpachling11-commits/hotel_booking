@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sunshine Hotel</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Hotel Booking</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <header>
-    <h1>🌞 Sunshine Hotel</h1>
+
+<header>
+    <h1>Welcome to Our Hotel</h1>
     <nav>
-      <a href="/">Home</a>
-      <a href="/rooms">Rooms</a>
-      <a href="/booking">Booking</a>
-      <a href="/contact">Contact</a>
+        <a href="/">Home</a>
+        <a href="/rooms">Rooms</a>
+        <a href="/booking">Booking</a>
+        <a href="/contact">Contact</a>
     </nav>
-  </header>
+</header>
 
-  <section class="hero">
-    <h2>Welcome to Sunshine Hotel</h2>
-    <p>Your comfort is our priority. Enjoy luxury and relaxation!</p>
-    <a href="booking.html" class="btn">Book Now</a>
-  </section>
+<section class="hero">
+    <h2>Luxury Stay, Affordable Price</h2>
+    <p>Book your room now</p>
+    <a class="btn" href="/booking">Book Now</a>
+</section>
 
-  <footer>
-    <p>© 2025 Sunshine Hotel | Designed by Manmath</p>
-  </footer>
+<footer>
+    <p>© 2026 Hotel Booking</p>
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
