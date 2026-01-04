@@ -23,11 +23,11 @@
            style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
 
     <label>Room Type:</label><br>
-    <select name="room" required
-            style="width: 100%; padding: 10px; font-size: 16px;">
-      <option>Deluxe</option>
-      <option>Suite</option>
-      <option>Family</option>
+    <select name="room" required>
+    <option value="">Select Room</option>
+    <option value="Deluxe" {% if room=="Deluxe" %}selected{% endif %}>Deluxe</option>
+    <option value="Luxury" {% if room=="Luxury" %}selected{% endif %}>Luxury</option>
+    <option value="Suite" {% if room=="Suite" %}selected{% endif %}>Suite</option>
     </select><br><br>
 
     <label>Check-in Date:</label><br>
