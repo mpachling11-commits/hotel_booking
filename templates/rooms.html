@@ -26,21 +26,21 @@
         <img src="{{ url_for('static', filename='images/room1.jpg') }}">
         <h3>Deluxe Room</h3>
         <p>₹2500 / night</p>
-        <a href="/booking" class="btn">Book Now</a>
+        <a href="{{ url_for('booking') }}?room=Deluxe" class="btn">Book Now</a>
     </div>
 
     <div class="room-card">
         <img src="{{ url_for('static', filename='images/room2.jpg') }}">
         <h3>Luxury Room</h3>
         <p>₹3500 / night</p>
-        <a href="/booking" class="btn">Book Now</a>
+        <a href="{{ url_for('booking') }}?room=Luxury" class="btn">Book Now</a>
     </div>
 
     <div class="room-card">
         <img src="{{ url_for('static', filename='images/room3.jpg') }}">
         <h3>Suite Room</h3>
         <p>₹5000 / night</p>
-        <a href="/booking" class="btn">Book Now</a>
+        <a href="{{ url_for('booking') }}?room=Suite" class="btn">Book Now</a>
     </div>
 
 </section>
