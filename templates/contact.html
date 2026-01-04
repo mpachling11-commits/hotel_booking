@@ -1,31 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact - Sunshine Hotel</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Contact Us | Sunshine Hotel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <header>
+
+<header class="navbar">
     <h1>Contact Us</h1>
     <nav>
-      <a href="/">Home</a>
-      <a href="{{ url_for('rooms') }}">Rooms</a>
-      <a href="{{ url_for('contact') }}">Contact</a>
-      <a href="{{ url_for('booking') }}">Booking</a>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('rooms') }}">Rooms</a>
+        <a href="{{ url_for('booking') }}">Booking</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
     </nav>
-  </header>
+</header>
 
-  <section class="contact">
-    <p><b> Owner:</b>Manmath Pachling</p>
-    <p><b> Phon:</b>+91 7249768841</p>
-    <p><b> Email:</b>info@sunshine.com</p>
-    <p><b> Address:</b> Bhagya Nagar, Nanded, India</p>
-  </section>
+<section class="contact-container">
 
-  <footer>
-    <p>© 2025 Sunshine Hotel</p>
-  </footer>
+    <div class="contact-card">
+        <h2>📍 Contact Information</h2>
+        <p><strong>Owner:</strong> Manmath Pachling</p>
+        <p><strong>Phone:</strong> +91 7249768841</p>
+        <p><strong>Email:</strong> info@sunshine.com</p>
+        <p><strong>Address:</strong> Bhagya Nagar, Nanded, India</p>
+    </div>
+
+    <div class="contact-card">
+        <h2>✉️ Send Us a Message</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" rows="4" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+</section>
+
+<footer>
+    © 2025 Sunshine Hotel
+</footer>
+
 </body>
 </html>
