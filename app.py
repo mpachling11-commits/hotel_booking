@@ -16,11 +16,16 @@ def contact():
 
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
+    selected_room = request.args.get("room")
+
     if request.method == "POST":
         return redirect(url_for("thank_you"))
-    return render_template("booking.html")
+
+    return render_template("booking.html", room=selected_room)
+
 
 @app.route("/thank-you")
 def thank_you():
     return render_template("thank_you.html")
+
 
