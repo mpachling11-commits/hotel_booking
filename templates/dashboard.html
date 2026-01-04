@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Admin Dashboard</h1>
+    <p>Total Bookings: {{ bookings|length }}</p>
+</header>
+
+<div style="padding: 30px;">
+
+{% if bookings %}
+<table border="1" width="100%" cellpadding="10" cellspacing="0">
+    <tr style="background:#0a6cf1;color:white;">
+        <th>Name</th>
+        <th>Email</th>
+        <th>Room</th>
+        <th>Check-in</th>
+        <th>Check-out</th>
+    </tr>
+
+    {% for b in bookings %}
+    <tr>
+        <td>{{ b.name }}</td>
+        <td>{{ b.email }}</td>
+        <td>{{ b.room }}</td>
+        <td>{{ b.checkin }}</td>
+        <td>{{ b.checkout }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No bookings yet.</p>
+{% endif %}
+
+</div>
+
+</body>
+</html>
