@@ -146,4 +146,34 @@ form {
     width: 75%;
     margin: 0 auto;
     background: gray;
-}   
+} 
+.thank-you-page {
+    background: rgba(0, 0, 0, 0.6);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thank-you-box {
+    background: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    max-width: 400px;
+}
+
+.thank-you-box h1 {
+    color: #2c7a7b;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #2c7a7b;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
