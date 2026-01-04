@@ -1,28 +1,22 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('booking.html')
+    return render_template("index.html")
 
-@app.route('/book', methods=['POST'])
-def book():
-    name = request.form['name']
-    email = request.form['email']
-    room = request.form['room']
-    checkin = request.form['checkin']
-    checkout = request.form['checkout']
+@app.route("/rooms")
+def rooms():
+    return render_template("rooms.html")
 
-    return f"""
-    <h2>Booking Confirmed!</h2>
-    <p>Name: {name}</p>
-    <p>Email: {email}</p>
-    <p>Room: {room}</p>
-    <p>Check-in: {checkin}</p>
-    <p>Check-out: {checkout}</p>
-    """
+@app.route("/booking")
+def booking():
+    return render_template("booking.html")
 
-# REQUIRED FOR RENDER
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
+if __name__ == "__main__":
+    app.run()
