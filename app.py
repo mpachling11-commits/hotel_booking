@@ -1,24 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = "admin123"
 
-
 # Temporary storage (no database for now)
 bookings = []
 
+# ---------------- HOME ----------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
+# ---------------- ROOMS ----------------
 @app.route("/rooms")
 def rooms():
     return render_template("rooms.html")
 
+# ---------------- CONTACT ----------------
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
 
+# ---------------- BOOKING ----------------
 @app.route("/booking", methods=["GET", "POST"])
 def booking():
     selected_room = request.args.get("room")
@@ -32,29 +35,18 @@ def booking():
             "checkout": request.form["checkout"]
         }
 
-        # Store booking temporarily
         bookings.append(booking_data)
 
         return render_template("thank_you.html", data=booking_data)
 
     return render_template("booking.html", room=selected_room)
 
-@app.route("/admin")
-def admin_dashboard():
-    return render_template("dashboard.html", bookings=bookings)
-
+# ---------------- THANK YOU ----------------
 @app.route("/thank-you")
 def thank_you():
-    # fallback page if someone directly opens URL
     return render_template("thank_you.html", data=None)
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html")
-
+# ---------------- ADMIN LOGIN ----------------
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
     if request.method == "POST":
@@ -67,17 +59,20 @@ def admin():
 
     return render_template("admin_login.html")
 
+# ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
     if not session.get("admin"):
         return redirect(url_for("admin"))
-    return render_template("dashboard.html")
 
+    return render_template("dashboard.html", bookings=bookings)
+
+# ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("home"))
 
-
-
-
+# ---------------- RUN ----------------
+if __name__ == "__main__":
+    app.run(debug=True)
