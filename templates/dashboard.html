@@ -1,43 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Dashboard | Hotel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-<header class="page-header">
-    <h1>Admin Dashboard</h1>
-    <p>Total Bookings: {{ bookings|length }}</p>
+<header class="navbar">
+    <h2>Admin Dashboard</h2>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/booking">Booking</a>
+    </nav>
 </header>
 
-<div style="padding: 30px;">
+<section style="padding:40px; text-align:center;">
+    <h1>Welcome to Dashboard</h1>
+    <p>This is admin area (data will come later)</p>
 
-{% if bookings %}
-<table border="1" width="100%" cellpadding="10" cellspacing="0">
-    <tr style="background:#0a6cf1;color:white;">
-        <th>Name</th>
-        <th>Email</th>
-        <th>Room</th>
-        <th>Check-in</th>
-        <th>Check-out</th>
-    </tr>
+    <div class="room-container">
+        <div class="room-card">
+            <h3>Total Rooms</h3>
+            <p>25</p>
+        </div>
 
-    {% for b in bookings %}
-    <tr>
-        <td>{{ b.name }}</td>
-        <td>{{ b.email }}</td>
-        <td>{{ b.room }}</td>
-        <td>{{ b.checkin }}</td>
-        <td>{{ b.checkout }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% else %}
-<p>No bookings yet.</p>
-{% endif %}
+        <div class="room-card">
+            <h3>Total Bookings</h3>
+            <p>12</p>
+        </div>
 
-</div>
+        <div class="room-card">
+            <h3>Available Rooms</h3>
+            <p>13</p>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>
