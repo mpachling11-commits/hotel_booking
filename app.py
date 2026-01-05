@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = "admin123"
+
 
 # Temporary storage (no database for now)
 bookings = []
@@ -52,5 +54,30 @@ if __name__ == "__main__":
 @app.route("/dashboard")
 def dashboard():
     return render_template("dashboard.html")
+
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == "admin" and password == "1234":
+            session["admin"] = True
+            return redirect(url_for("dashboard"))
+
+    return render_template("admin_login.html")
+
+@app.route("/dashboard")
+def dashboard():
+    if not session.get("admin"):
+        return redirect(url_for("admin"))
+    return render_template("dashboard.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("home"))
+
+
 
 
