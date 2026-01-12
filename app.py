@@ -28,18 +28,30 @@ def date_range(start, end):
 
 # ---------------- AVAILABILITY CHECK ----------------
 def is_room_available(room_type, check_in, check_out):
-    booked_per_day = {}
+    booked = 0
 
     for booking in bookings:
         if booking["room_type"] == room_type:
             for d in date_range(booking["check_in"], booking["check_out"]):
-                booked_per_day[d] = booked_per_day.get(d, 0) + 1
+                if check_in <= d < check_out:
+                    booked += 1
 
-    for d in date_range(check_in, check_out):
-        if booked_per_day.get(d, 0) >= ROOM_CAPACITY[room_type]:
-            return False
+    return booked < ROOM_CAPACITY[room_type]
 
-    return True
+# ---------------- CUSTOMER AVAILABILITY ----------------
+def customer_availability(check_in, check_out):
+    availability = {}
+
+    for room in ROOM_CAPACITY:
+        booked = 0
+        for booking in bookings:
+            if booking["room_type"] == room:
+                for d in date_range(booking["check_in"], booking["check_out"]):
+                    if check_in <= d < check_out:
+                        booked += 1
+        availability[room] = ROOM_CAPACITY[room] - booked
+
+    return availability
 
 # ---------------- OWNER AVAILABILITY ----------------
 def availability_by_date():
@@ -69,6 +81,22 @@ def contact():
 def booking():
     return render_template("booking.html")
 
+# ---------- CHECK AVAILABILITY (CUSTOMER) ----------
+@app.route("/check-availability", methods=["POST"])
+def check_availability():
+    check_in = request.form["check_in"]
+    check_out = request.form["check_out"]
+
+    availability = customer_availability(check_in, check_out)
+
+    return render_template(
+        "booking.html",
+        availability=availability,
+        check_in=check_in,
+        check_out=check_out
+    )
+
+# ---------- BOOK ROOM ----------
 @app.route("/book", methods=["POST"])
 def book_room():
     name = request.form["name"]
@@ -101,6 +129,7 @@ def admin_login():
             return redirect(url_for("dashboard"))
         else:
             return "Invalid credentials"
+
     return render_template("admin_login.html")
 
 # ---------------- OWNER DASHBOARD ----------------
@@ -122,7 +151,6 @@ def logout():
     session.pop("admin", None)
     return redirect(url_for("index"))
 
-# ---------------- RUN (RENDER SAFE) ----------------
+# ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
-
