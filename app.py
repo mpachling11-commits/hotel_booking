@@ -123,6 +123,6 @@ def logout():
     session.pop("admin", None)
     return redirect(url_for("index"))
 
-# ---------------- RUN ----------------
+# ---------------- RUN (RENDER SAFE) ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
