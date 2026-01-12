@@ -54,7 +54,7 @@ def availability_by_date():
 
 # ---------------- ROUTES ----------------
 @app.route("/")
-def():
+def index():
     return render_template("index.html")
 
 @app.route("/rooms")
@@ -67,7 +67,7 @@ def contact():
 
 @app.route("/booking")
 def booking():
-    return render_template("booking.html",)
+    return render_template("booking.html")
 
 @app.route("/book", methods=["POST"])
 def book_room():
@@ -101,7 +101,6 @@ def admin_login():
             return redirect(url_for("dashboard"))
         else:
             return "Invalid credentials"
-
     return render_template("admin_login.html")
 
 # ---------------- OWNER DASHBOARD ----------------
@@ -125,9 +124,5 @@ def logout():
 
 # ---------------- RUN (RENDER SAFE) ----------------
 if __name__ == "__main__":
-    app.run()
-
-
-
-
+    app.run(debug=True)
 
