@@ -1,63 +1,84 @@
 <div style="display: flex; justify-content: center; margin-top: 50px;">
 
-  <form action="{{ url_for('book_room') }}" method="POST"
-        style="
-          background-color: #f4f9f4;
-          width: 500px;
-          padding: 40px;
-          font-size: 18px;
-          border-radius: 12px;
-          box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        ">
+  <div style="
+        background-color: #f4f9f4;
+        width: 500px;
+        padding: 40px;
+        font-size: 18px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      ">
 
     <h1 style="text-align: center; font-size: 32px; margin-bottom: 30px;">
-      Book Here
+      Check Room Availability
     </h1>
 
-    <!-- Name -->
-    <label>Name:</label><br>
-    <input type="text" name="name" required
-           style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
+    <!-- CHECK AVAILABILITY FORM -->
+    <form action="{{ url_for('check_availability') }}" method="POST">
 
-    <!-- Email -->
-    <label>Email:</label><br>
-    <input type="email" name="email" required
-           style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
+      <label>Check-in Date:</label><br>
+      <input type="date" name="check_in" required
+             value="{{ check_in or '' }}"
+             style="width: 100%; padding: 10px;"><br><br>
 
-    <!-- Room Type -->
-    <label>Room Type:</label><br>
-    <select name="room_type" required
-            style="width: 100%; padding: 10px; font-size: 16px;">
-      <option value="">Select Room</option>
-      <option value="Deluxe">Deluxe</option>
-      <option value="Luxury">Luxury</option>
-      <option value="Suite">Suite</option>
-    </select><br><br>
+      <label>Check-out Date:</label><br>
+      <input type="date" name="check_out" required
+             value="{{ check_out or '' }}"
+             style="width: 100%; padding: 10px;"><br><br>
 
-    <!-- Check-in Date -->
-    <label>Check-in Date:</label><br>
-    <input type="date" name="check_in" required
-           style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
+      <button type="submit"
+              style="width:100%; padding:12px; background:#2e8b57; color:white; border:none;">
+        Check Availability
+      </button>
+    </form>
 
-    <!-- Check-out Date -->
-    <label>Check-out Date:</label><br>
-    <input type="date" name="check_out" required
-           style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
+    <!-- SHOW AVAILABILITY -->
+    {% if availability %}
+      <hr><br>
+      <h3>Available Rooms</h3>
+      <p>Deluxe: {{ availability.Deluxe }}</p>
+      <p>Luxury: {{ availability.Luxury }}</p>
+      <p>Suite: {{ availability.Suite }}</p>
+      <br>
+    {% endif %}
 
-    <!-- Submit Button -->
-    <button type="submit"
-            style="
-              width: 100%;
-              padding: 15px;
-              font-size: 18px;
-              background-color: #2e8b57;
-              color: white;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-            ">
-      Confirm Booking
-    </button>
+    <!-- BOOKING FORM -->
+    {% if availability %}
+    <h2 style="text-align:center;">Book Here</h2>
 
-  </form>
+    <form action="{{ url_for('book_room') }}" method="POST">
+
+      <input type="hidden" name="check_in" value="{{ check_in }}">
+      <input type="hidden" name="check_out" value="{{ check_out }}">
+
+      <label>Name:</label><br>
+      <input type="text" name="name" required
+             style="width: 100%; padding: 10px;"><br><br>
+
+      <label>Email:</label><br>
+      <input type="email" name="email" required
+             style="width: 100%; padding: 10px;"><br><br>
+
+      <label>Room Type:</label><br>
+      <select name="room_type" required style="width:100%; padding:10px;">
+        {% if availability.Deluxe > 0 %}
+          <option value="Deluxe">Deluxe</option>
+        {% endif %}
+        {% if availability.Luxury > 0 %}
+          <option value="Luxury">Luxury</option>
+        {% endif %}
+        {% if availability.Suite > 0 %}
+          <option value="Suite">Suite</option>
+        {% endif %}
+      </select><br><br>
+
+      <button type="submit"
+              style="width:100%; padding:15px; background:#2e8b57; color:white; border:none;">
+        Confirm Booking
+      </button>
+
+    </form>
+    {% endif %}
+
+  </div>
 </div>
