@@ -1,37 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+<h1>Owner Dashboard</h1>
 
-<div class="dashboard-header">
-    <h1>Admin Dashboard</h1>
-    <p>Hotel Booking Overview</p>
-</div>
+<h2>All Bookings</h2>
+<table border="1">
+<tr>
+    <th>Name</th>
+    <th>Room</th>
+    <th>Check-in</th>
+    <th>Check-out</th>
+</tr>
+{% for b in bookings %}
+<tr>
+    <td>{{ b.name }}</td>
+    <td>{{ b.room_type }}</td>
+    <td>{{ b.check_in }}</td>
+    <td>{{ b.check_out }}</td>
+</tr>
+{% endfor %}
+</table>
 
-<div class="dashboard-cards">
-    <div class="card">
-        <h2>Total Rooms</h2>
-        <p>30</p>
-    </div>
-    <div class="card">
-        <h2>Bookings Today</h2>
-        <p>12</p>
-    </div>
-    <div class="card">
-        <h2>Available Rooms</h2>
-        <p>5</p>
-    </div>
-</div>
+<hr>
 
-<div class="chart-box">
-    <canvas id="bookingChart"></canvas>
-</div>
+<h2>Date-wise Availability</h2>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% for room, dates in availability.items() %}
+<h3>{{ room }}</h3>
 
-</body>
-</html>
+<table border="1">
+<tr>
+    <th>Date</th>
+    <th>Booked</th>
+    <th>Available</th>
+</tr>
+
+{% for date, booked in dates.items() %}
+<tr>
+    <td>{{ date }}</td>
+    <td>{{ booked }}</td>
+    <td>{{ room_capacity[room] - booked }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endfor %}
