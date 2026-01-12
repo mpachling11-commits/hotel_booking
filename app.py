@@ -67,7 +67,7 @@ def contact():
 
 @app.route("/booking")
 def booking():
-    return render_template("booking.html")
+    return render_template("booking.html", room="")
 
 @app.route("/book", methods=["POST"])
 def book_room():
@@ -126,3 +126,4 @@ def logout():
 # ---------------- RUN (RENDER SAFE) ----------------
 if __name__ == "__main__":
     app.run()
+
