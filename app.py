@@ -124,18 +124,21 @@ def thank_you():
 @app.route("/admin", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        if request.form["username"] == "admin" and request.form["password"] == "admin123":
-            session["admin"] = True
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session["admin_logged_in"] = True
             return redirect(url_for("dashboard"))
         else:
-            return "Invalid credentials"
+            return render_template("admin_login.html", error="Invalid credentials")
 
     return render_template("admin_login.html")
 
 # ---------------- OWNER DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
-    if not session.get("admin"):
+    if not session.get("admin_logged_in"):
         return redirect(url_for("admin_login"))
 
     availability = availability_by_date()
@@ -154,3 +157,4 @@ def logout():
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
+
