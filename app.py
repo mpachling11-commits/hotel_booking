@@ -154,7 +154,15 @@ def logout():
     session.pop("admin", None)
     return redirect(url_for("index"))
 
+# ---------------- logout roure ----------------
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
+
+
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
+
 
