@@ -53,8 +53,8 @@ def availability_by_date():
     return availability
 
 # ---------------- ROUTES ----------------
-@app.route("/home")
-def home():
+@app.route("/")
+def ():
     return render_template("index.html")
 
 @app.route("/rooms")
@@ -126,6 +126,7 @@ def logout():
 # ---------------- RUN (RENDER SAFE) ----------------
 if __name__ == "__main__":
     app.run()
+
 
 
 
