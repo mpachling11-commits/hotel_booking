@@ -4,6 +4,10 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.secret_key = "admin123"
 
+# ---------------- ADMIN CREDENTIALS ----------------
+ADMIN_USERNAME = "admin"
+ADMIN_PASSWORD = "admin123"
+
 # ---------------- ROOM CAPACITY ----------------
 ROOM_CAPACITY = {
     "Deluxe": 10,
@@ -18,25 +22,24 @@ bookings = []
 def date_range(start, end):
     start_date = datetime.strptime(start, "%Y-%m-%d")
     end_date = datetime.strptime(end, "%Y-%m-%d")
-    dates = []
-
     while start_date < end_date:
-        dates.append(start_date.strftime("%Y-%m-%d"))
+        yield start_date.strftime("%Y-%m-%d")
         start_date += timedelta(days=1)
-
-    return dates
 
 # ---------------- AVAILABILITY CHECK ----------------
 def is_room_available(room_type, check_in, check_out):
-    booked = 0
+    count_per_day = {}
 
     for booking in bookings:
         if booking["room_type"] == room_type:
             for d in date_range(booking["check_in"], booking["check_out"]):
-                if check_in <= d < check_out:
-                    booked += 1
+                count_per_day[d] = count_per_day.get(d, 0) + 1
 
-    return booked < ROOM_CAPACITY[room_type]
+    for d in date_range(check_in, check_out):
+        if count_per_day.get(d, 0) >= ROOM_CAPACITY[room_type]:
+            return False
+
+    return True
 
 # ---------------- CUSTOMER AVAILABILITY ----------------
 def customer_availability(check_in, check_out):
@@ -49,7 +52,7 @@ def customer_availability(check_in, check_out):
                 for d in date_range(booking["check_in"], booking["check_out"]):
                     if check_in <= d < check_out:
                         booked += 1
-        availability[room] = ROOM_CAPACITY[room] - booked
+        availability[room] = max(0, ROOM_CAPACITY[room] - booked)
 
     return availability
 
@@ -81,7 +84,7 @@ def contact():
 def booking():
     return render_template("booking.html")
 
-# ---------- CHECK AVAILABILITY (CUSTOMER) ----------
+# ---------- CHECK AVAILABILITY ----------
 @app.route("/check-availability", methods=["POST"])
 def check_availability():
     check_in = request.form["check_in"]
@@ -124,45 +127,36 @@ def thank_you():
 @app.route("/admin", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        if (
+            request.form["username"] == ADMIN_USERNAME
+            and request.form["password"] == ADMIN_PASSWORD
+        ):
             session["admin_logged_in"] = True
             return redirect(url_for("dashboard"))
-        else:
-            return render_template("admin_login.html", error="Invalid credentials")
+
+        return render_template("admin_login.html", error="Invalid credentials")
 
     return render_template("admin_login.html")
 
-# ---------------- OWNER DASHBOARD ----------------
+# ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
     if not session.get("admin_logged_in"):
         return redirect(url_for("admin_login"))
 
-    availability = availability_by_date()
     return render_template(
         "dashboard.html",
         bookings=bookings,
-        availability=availability,
+        availability=availability_by_date(),
         room_capacity=ROOM_CAPACITY
     )
 
-@app.route("/logout")
-def logout():
-    session.pop("admin", None)
-    return redirect(url_for("index"))
-
-# ---------------- logout roure ----------------
+# ---------------- LOGOUT (ONLY ONE!) ----------------
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("index"))
 
-
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     app.run(debug=True)
-
-
