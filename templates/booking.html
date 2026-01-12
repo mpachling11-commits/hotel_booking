@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content: center; margin-top: 50px;">
 
-  <form action="{{ url_for('booking') }}" method="POST"
+  <form action="{{ url_for('book_room') }}" method="POST"
         style="
           background-color: #f4f9f4;
           width: 500px;
@@ -23,19 +23,20 @@
            style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
 
     <label>Room Type:</label><br>
-    <select name="room" required>
-    <option value="">Select Room</option>
-    <option value="Deluxe" {% if room=="Deluxe" %}selected{% endif %}>Deluxe</option>
-    <option value="Luxury" {% if room=="Luxury" %}selected{% endif %}>Luxury</option>
-    <option value="Suite" {% if room=="Suite" %}selected{% endif %}>Suite</option>
+    <select name="room_type" required
+            style="width: 100%; padding: 10px; font-size: 16px;">
+      <option value="">Select Room</option>
+      <option value="Deluxe">Deluxe</option>
+      <option value="Luxury">Luxury</option>
+      <option value="Suite">Suite</option>
     </select><br><br>
 
     <label>Check-in Date:</label><br>
-    <input type="date" name="checkin" required
+    <input type="date" name="check_in" required
            style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
 
     <label>Check-out Date:</label><br>
-    <input type="date" name="checkout" required
+    <input type="date" name="check_out" required
            style="width: 100%; padding: 10px; font-size: 16px;"><br><br>
 
     <button type="submit"
