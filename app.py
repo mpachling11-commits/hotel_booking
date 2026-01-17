@@ -28,18 +28,15 @@ def date_range(start, end):
 
 # ---------------- AVAILABILITY CHECK ----------------
 def is_room_available(room_type, check_in, check_out):
-    count_per_day = {}
+    booked_count = 0
 
     for booking in bookings:
         if booking["room_type"] == room_type:
             for d in date_range(booking["check_in"], booking["check_out"]):
-                count_per_day[d] = count_per_day.get(d, 0) + 1
+                if check_in <= d < check_out:
+                    booked_count += 1
 
-    for d in date_range(check_in, check_out):
-        if count_per_day.get(d, 0) >= ROOM_CAPACITY[room_type]:
-            return False
-
-    return True
+    return booked_count < ROOM_CAPACITY[room_type]
 
 # ---------------- CUSTOMER AVAILABILITY ----------------
 def customer_availability(check_in, check_out):
@@ -87,8 +84,14 @@ def booking():
 # ---------- CHECK AVAILABILITY ----------
 @app.route("/check-availability", methods=["POST"])
 def check_availability():
-    check_in = request.form["check_in"]
-    check_out = request.form["check_out"]
+    check_in = request.form.get("check_in")
+    check_out = request.form.get("check_out")
+
+    if not check_in or not check_out or check_out <= check_in:
+        return render_template(
+            "booking.html",
+            error="Invalid date selection"
+        )
 
     availability = customer_availability(check_in, check_out)
 
@@ -106,6 +109,9 @@ def book_room():
     room_type = request.form["room_type"]
     check_in = request.form["check_in"]
     check_out = request.form["check_out"]
+
+    if check_out <= check_in:
+        return "<h2>Invalid date selection</h2>"
 
     if not is_room_available(room_type, check_in, check_out):
         return "<h2>Room not available for selected dates</h2>"
@@ -151,7 +157,7 @@ def dashboard():
         room_capacity=ROOM_CAPACITY
     )
 
-# ---------------- LOGOUT (ONLY ONE!) ----------------
+# ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
     session.clear()
