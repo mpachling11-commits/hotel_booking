@@ -10,7 +10,19 @@
     <div class="thank-you-box">
         <h1>🎉 Thank You for Your Booking!</h1>
         <p>Your booking request has been received.</p>
-        <p>Our team will contact you shortly.</p>
+
+        {% if data %}
+            <div class="booking-details">
+                <p><strong>Name:</strong> {{ data["name"] }}</p>
+                <p><strong>Email:</strong> {{ data["email"] }}</p>
+                <p><strong>Room Type:</strong> {{ data["room"] }}</p>
+                <p><strong>Check-in:</strong> {{ data["checkin"] }}</p>
+                <p><strong>Check-out:</strong> {{ data["checkout"] }}</p>
+            </div>
+            <p>Our team will contact you shortly.</p>
+        {% else %}
+            <p>No booking details available.</p>
+        {% endif %}
 
         <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
     </div>
